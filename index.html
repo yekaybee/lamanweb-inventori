@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senarai Peralatan Auditorium</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .intro-text {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auditorium-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .auditorium-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+            border-color: #007BFF;
+            cursor: pointer;
+        }
+        
+        .auditorium-card .icon {
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Senarai Auditorium</h1>
+        <p class="intro-text">Pilih auditorium untuk melihat senarai peralatan yang tersedia.</p>
+
+        <div class="link-container">
+            <a href="seri-angkasa.html" class="auditorium-card">
+                <span class="icon">🏛️</span>
+                <span>Auditorium Seri Angkasa</span>
+            </a>
+            
+            <a href="perdana.html" class="auditorium-card">
+                <span class="icon">🏛️</span>
+                <span>Auditorium Perdana</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

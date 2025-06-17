@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kemaskini Data Peralatan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS TIDAK BERUBAH */
+        body{font-family:'Poppins',sans-serif;background-color:#f4f7f6;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+        .container{width:100%;max-width:600px;background-color:#fff;padding:40px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+        h1{text-align:center;color:#2c3e50;margin-bottom:30px}
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;margin-bottom:8px;font-weight:600;color:#34495e}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:1rem;font-family:'Poppins',sans-serif}
+        .submit-btn{width:100%;padding:15px;background-color:#28a745;color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:background-color .3s ease}
+        .submit-btn:hover{background-color:#218838}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Borang Kemaskini Inventori</h1>
+        <form name="submit-to-google-sheet">
+            <div class="form-group">
+                <label for="auditorium">Pilih Auditorium</label>
+                <select id="auditorium" name="NamaAuditorium" required>
+                    <option value="Auditorium Seri Angkasa">Auditorium Seri Angkasa</option>
+                    <option value="Auditorium Perdana">Auditorium Perdana</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="peralatan">Pilih Peralatan</label>
+                <select id="peralatan" name="Peralatan" required>
+                    <option value="Kamera">Kamera</option>
+                    <option value="RF camera">RF camera</option>
+                    <option value="Pedestal">Pedestal</option>
+                    <option value="Jimmy Jib">Jimmy Jib</option>
+                    <option value="Dutch Head">Dutch Head</option>
+                    <option value="Tripod">Tripod</option>
+                    <option value="Monitor">Monitor</option>
+                    <option value="Lain-lain">Lain-lain</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kuantiti">Kuantiti untuk Ditambah</label>
+                <input type="number" id="kuantiti" name="Kuantiti" required placeholder="Contoh: 5 atau -2">
+            </div>
+            <div class="form-group">
+                <label for="nota">Nota (Pilihan)</label>
+                <textarea id="nota" name="Nota" rows="3"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Kemaskini Kuantiti</button>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw-loaLCDwIUaFtBE5YT-LqequWcgWQSCY-QwoxoyqHeTtQo7woMDBagrEGWFlu5M3Z/exec'; // GUNA URL YANG SAMA
+        const form = document.forms['submit-to-google-sheet'];
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Menghantar...';
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    alert('Kuantiti berjaya dikemaskini!');
+                    btn.disabled = false;
+                    btn.textContent = 'Kemaskini Kuantiti';
+                    form.reset();
+                })
+                .catch(error => {
+                    alert('Gagal mengemaskini data.');
+                    btn.disabled = false;
+                    btn.textContent = 'Kemaskini Kuantiti';
+                    console.error('Error!', error.message);
+                });
+        });
+    </script>
+</body>
+</html>
