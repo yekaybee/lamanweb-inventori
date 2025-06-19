@@ -8,21 +8,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body{font-family:'Poppins',sans-serif;background-color:#f4f7f6;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:20px}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Dibetulkan: Kandungan akan mula dari atas */
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px 20px; /* Diubah: Menambah lebih ruang di atas (padding-top) */
+            color: #333;
+            box-sizing: border-box; /* Tambahan: Untuk pengiraan padding yang lebih baik */
+        }
         .container{width:100%;max-width:700px;background-color:#fff;padding:40px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.08);text-align:left}
         h1{font-size:2.2rem;font-weight:700;margin-top:0;margin-bottom:30px;color:#2c3e50;text-align:center}
         .equipment-table{width:100%;border-collapse:collapse;margin-bottom:40px}
         .equipment-table th,.equipment-table td{padding:15px;border-bottom:1px solid #e0e0e0}
         .equipment-table th{font-weight:600;background-color:#f8f9fa;color:#34495e}
         .equipment-table td:last-child{text-align:center;font-weight:600;font-size:1.2rem}
-        /* Tambahan: Gaya untuk baris yang boleh diklik */
         .equipment-row:hover{background-color:#f1f1f1;cursor:pointer}
         .back-button{display:inline-block;background-color:#3498db;color:#fff;padding:12px 25px;border-radius:8px;text-decoration:none;font-weight:600;transition:background-color .3s ease}
         .back-button:hover{background-color:#2980b9}
 
-        /* --- GAYA BARU UNTUK MODAL (POP-UP) --- */
+        /* GAYA UNTUK MODAL (POP-UP) */
         .modal {
-            display: none; /* Tersembunyi secara lalai */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -30,7 +40,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5); /* Latar belakang hitam separa lutsinar */
+            background-color: rgba(0,0,0,0.5);
         }
         .modal-content {
             background-color: #fefefe;
@@ -49,7 +59,7 @@
         .modal-body p {
             font-size: 1rem;
             line-height: 1.6;
-            white-space: pre-wrap; /* Memastikan format teks nota dikekalkan */
+            white-space: pre-wrap;
         }
         .close-btn {
             color: #aaa;
@@ -96,22 +106,36 @@
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw-loaLCDwIUaFtBE5YT-LqequWcgWQSCY-QwoxoyqHeTtQo7woMDBagrEGWFlu5M3Z/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz2rPeYB6wETgIyeo2E5SHNODrryaZnzaSwK5UB7afSgwGLP9uKnwG9BTITGdP7dEP-/exec';
         const tableBody = document.getElementById('equipment-body');
         const masterEquipmentList = ["Kamera", "RF camera", "Pedestal", "Jimmy Jib", "Dutch Head", "Tripod", "Monitor", "Lain-lain"];
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetch(scriptURL)
+            // Menambah parameter rawak pada URL untuk sentiasa dapat data terkini (elak cache)
+            const urlWithCacheBuster = scriptURL + '?v=' + new Date().getTime();
+
+            fetch(urlWithCacheBuster)
                 .then(res => res.json())
                 .then(data => {
                     const inventoryData = data.filter(item => item.NamaAuditorium === 'Auditorium Seri Angkasa');
+                    
                     tableBody.innerHTML = '';
+                    if (inventoryData.length === 0) {
+                        // Jika tiada data langsung dari sheet, paparkan senarai master dengan kuantiti 0
+                        masterEquipmentList.forEach(equipName => {
+                             let row = `<tr class="equipment-row" data-nota="Tiada data." data-peralatan="${equipName}">
+                                         <td>${equipName}</td>
+                                         <td>0</td>
+                                       </tr>`;
+                            tableBody.innerHTML += row;
+                        });
+                        return;
+                    }
+
                     masterEquipmentList.forEach(equipName => {
                         const itemData = inventoryData.find(item => item.Peralatan === equipName);
                         const quantity = itemData ? itemData.Kuantiti : 0;
-                        const note = itemData ? itemData.Nota : ''; // Ambil data nota
-
-                        // Tambah class="equipment-row" dan data-nota="..." pada baris
+                        const note = itemData ? itemData.Nota : '';
                         let row = `<tr class="equipment-row" data-nota="${note}" data-peralatan="${equipName}">
                                      <td>${equipName}</td>
                                      <td>${quantity}</td>
@@ -119,29 +143,29 @@
                         tableBody.innerHTML += row;
                     });
                 })
-                .catch(error => console.error('Error fetching data:', error));
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    tableBody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:red;">Gagal memuatkan data. Sila semak sambungan atau URL skrip.</td></tr>';
+                });
         });
 
-        // --- LOGIK BARU UNTUK MODAL (POP-UP) ---
+        // Logik untuk modal (pop-up)
         const modal = document.getElementById('note-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalNote = document.getElementById('modal-note');
         const closeBtn = document.querySelector('.close-btn');
 
-        // Event Listener untuk klik pada baris jadual
         tableBody.addEventListener('click', (e) => {
             const row = e.target.closest('.equipment-row');
             if (row) {
                 const note = row.dataset.nota;
                 const peralatan = row.dataset.peralatan;
-                
                 modalTitle.textContent = `Nota untuk ${peralatan}`;
-                modalNote.textContent = note || 'Tiada nota untuk item ini.'; // Papar mesej jika nota kosong
-                modal.style.display = 'block'; // Tunjukkan modal
+                modalNote.textContent = note || 'Tiada nota untuk item ini.';
+                modal.style.display = 'block';
             }
         });
 
-        // Fungsi untuk tutup modal
         function closeModal() {
             modal.style.display = 'none';
         }
