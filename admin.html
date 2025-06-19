@@ -9,8 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* CSS TIDAK BERUBAH */
-        body{font-family:'Poppins',sans-serif;background-color:#f4f7f6;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-        .container{width:100%;max-width:600px;background-color:#fff;padding:40px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+        /* --- KOD BAHARU YANG TELAH DIBETULKAN --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* DIBETULKAN: Kandungan akan mula dari atas */
+    min-height: 100vh;
+    margin: 0;
+    padding: 50px 20px; /* DIUBAH: Menambah lebih ruang di atas (padding-top) */
+    color: #333;
+    box-sizing: border-box; /* Tambahan: Untuk pengiraan padding yang lebih baik */
+}
         h1{text-align:center;color:#2c3e50;margin-bottom:30px}
         .form-group{margin-bottom:20px}
         .form-group label{display:block;margin-bottom:8px;font-weight:600;color:#34495e}
@@ -56,7 +67,7 @@
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw-loaLCDwIUaFtBE5YT-LqequWcgWQSCY-QwoxoyqHeTtQo7woMDBagrEGWFlu5M3Z/exec'; // GUNA URL YANG SAMA
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz2rPeYB6wETgIyeo2E5SHNODrryaZnzaSwK5UB7afSgwGLP9uKnwG9BTITGdP7dEP-/exec'; // GUNA URL YANG SAMA
         const form = document.forms['submit-to-google-sheet'];
 
         form.addEventListener('submit', e => {
