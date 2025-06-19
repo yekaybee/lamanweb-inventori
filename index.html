@@ -11,16 +11,17 @@
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
+	    font-family: 'Poppins', sans-serif;
+	    background-color: #f4f7f6;
+	    display: flex;
+	    justify-content: center;
+	    align-items: flex-start; /* DIBETULKAN: Kandungan akan mula dari atas */
+	    min-height: 100vh;
+	    margin: 0;
+	    padding: 50px 20px; /* DIUBAH: Menambah lebih ruang di atas (padding-top) */
+	    color: #333;
+	    box-sizing: border-box; /* Tambahan: Untuk pengiraan padding yang lebih baik */
+	}
 
         .container {
             text-align: center;
