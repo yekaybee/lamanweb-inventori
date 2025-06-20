@@ -149,8 +149,8 @@ body {
                 const note = row.dataset.nota;
                 const peralatan = row.dataset.peralatan;
                 
-                modalTitle.textContent = `Nota untuk ${peralatan}`;
-                modalNote.textContent = note || 'Tiada nota untuk item ini.'; // Papar mesej jika nota kosong
+                modalTitle.textContent = `Note`;
+                modalNote.textContent = note || 'Tiada.'; // Papar mesej jika nota kosong
                 modal.style.display = 'block'; // Tunjukkan modal
             }
         });
